@@ -6,7 +6,7 @@
 /// Convert line of number into an array of special (initial or terminal) states
 /// \param stream File stream (read)
 /// \return List of special states
-static vector<string>* readSpecialStates(ifstream &stream);
+static vector<string> *readSpecialStates(ifstream &stream);
 
 /// Read an unique number on a line
 /// \param stream File stream (read)
@@ -18,18 +18,18 @@ static int readUniqueNumber(ifstream &stream);
 /// \param states List of all states
 /// \param alpha Alphabet of the FA
 //// \return Number of transition created
-static int createTransitions(ifstream &stream, vector<State*> &states, vector<char> &alpha);
+static int createTransitions(ifstream &stream, vector<State *> &states, vector<char> &alpha);
 
 /// Give the attribute 'initial' or 'final' for all concerned states
 /// \param list List of all states
 /// \param init List of initial states (string)
 /// \param final List of final states (string)
-static void giveAttributesStates(vector<State*> &list, const vector<string>* init, const vector<string>* final);
+static void giveAttributesStates(vector<State *> &list, const vector<string> *init, const vector<string> *final);
 
 /// Allocate memory for a state
 /// \param id ID of the state (string)
 /// \return Address of the state
-static State* allocateState(std::string id);
+static State *allocateState(std::string id);
 
 /// Convert a transition into 2 states and a character (return by parameters)
 /// \param transitionString String of transition
@@ -44,7 +44,7 @@ static void separateTransition(std::string &transitionString, char &c, std::stri
 /// \param stateToID ID of the final state of transition
 /// \param transition Character of transition
 /// \return Integrity of the operation (true: Performed)
-static bool createSingleTransition(vector<State*> &list, const std::string &stateFromID, const std::string &stateToID,
+static bool createSingleTransition(vector<State *> &list, const std::string &stateFromID, const std::string &stateToID,
                                    char transition);
 
 /// Add a character to an alphabet if not in
@@ -57,7 +57,7 @@ static void addCharacterToAlphabet(vector<char> &alpha, char c);
 /// \param stateTo State where the transition leads
 /// \param c Character of transition
 /// \return true if existing, false if not
-static bool verifyExistence(const State* stateFrom, const State* stateTo, char c);
+static bool verifyExistence(const State *stateFrom, const State *stateTo, char c);
 
 /// Generate the alphabet of an FA
 /// \param n Number of character present in the alphabet (starting from 'a')
@@ -69,6 +69,6 @@ static bool generateAlphabet(int n, vector<char> &alphabet);
 /// \param n Number of states present in the FA (starting from 0)
 /// \param list List of all states (return by parameter)
 /// \return Integrity of the operation (true: Performed)
-static bool generateStates(int n, vector<State*> &list);
+static bool generateStates(int n, vector<State *> &list);
 
 #endif //FINITE_AUTOMATA_MATH_CS_FILES_H
