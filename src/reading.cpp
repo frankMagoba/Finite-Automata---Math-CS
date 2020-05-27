@@ -4,15 +4,18 @@
 
 using namespace std;
 
-bool FA::recognizeWord(string word) {
-    vector<State*> cur;
+bool FA::recognizeWord(string word)
+{
+    vector<State *> cur;
 
     //Starts from all initial states
     State::recoverSpecials(_states, &cur, nullptr);
 
     //Transitions by character until the word is over
-    for (char c : word) {
-        if (cur.empty()) {
+    for (char c : word)
+    {
+        if (cur.empty())
+        {
             //If the transition leads to no states, stop transitioning
             break;
         }
@@ -25,20 +28,28 @@ bool FA::recognizeWord(string word) {
     return State::isAnyFinal(cur);
 }
 
-static vector<State*> ReadChar(char c, vector<State*> cur) {
-    vector<State*> next;
+static vector<State *> ReadChar(char c, vector<State *> cur)
+{
+    vector<State *> next;
 
     //starts by grouping initial states with their empty word accessible states
     State::groupEmpty(cur);
 
     //if given an empty word, no additional transitions
-    if (c == EMPTY) {
+    if (c == EMPTY)
+    {
         next = cur;
-    } else {
-        for (State* St : cur) {
-            for (Transition* T : St->exits) {
-                if (T->trans == c) {
-                    if (!State::searchById(next, T->dest->id)) {
+    }
+    else
+    {
+        for (State *St : cur)
+        {
+            for (Transition *T : St->exits)
+            {
+                if (T->trans == c)
+                {
+                    if (!State::searchById(next, T->dest->id))
+                    {
                         next.push_back(T->dest);
                     }
                 }
@@ -48,4 +59,3 @@ static vector<State*> ReadChar(char c, vector<State*> cur) {
 
     return next;
 }
-
