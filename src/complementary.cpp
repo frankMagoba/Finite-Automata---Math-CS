@@ -1,16 +1,22 @@
 #include "FA.h"
 
-FA* FA::complementarize() {
-    if (_completed) {
+FA *FA::complementarize()
+{
+    if (_completed)
+    {
         cout << "Complementary automate obtained from";
-        if (_minimized) {
+        if (_minimized)
+        {
             cout << " minimized version." << endl;
-        } else {
+        }
+        else
+        {
             cout << " just completed version." << endl;
         }
 
-        FA* complementary = new FA(*this);
-        for (State* st: complementary->_states) {
+        FA *complementary = new FA(*this);
+        for (State *st : complementary->_states)
+        {
             st->final = !(st->final);
         }
 
