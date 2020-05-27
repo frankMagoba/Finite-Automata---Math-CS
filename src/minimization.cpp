@@ -1,7 +1,6 @@
 #include "minimization.h"
 
-
-FA* FA::minimize(const bool displayT)
+FA *FA::minimize(const bool displayT)
 {
     if (_completed && _determinized)
     {
@@ -9,12 +8,13 @@ FA* FA::minimize(const bool displayT)
         PatternGroup Finals, NonFinals;
 
         //The initial Partition is the F and NF states
-        for (State *St: _states)
+        for (State *St : _states)
         {
             if (St->final)
             {
                 Finals.group.push_back(St); //Final
-            } else
+            }
+            else
             {
                 NonFinals.group.push_back(St); //NonFinal
             }
@@ -28,7 +28,8 @@ FA* FA::minimize(const bool displayT)
             P->push_back(Finals);
         }
 
-        if (displayT) {
+        if (displayT)
+        {
             display();
             displayPartition(P, 0, _alphabet);
         }
@@ -39,11 +40,15 @@ FA* FA::minimize(const bool displayT)
         FA *newAuto = new FA;
 
         newAuto->_name = "Minimized " + _name;
-        newAuto->_correspondence << endl << "Table of Correspondence of " << _name << " to " << newAuto->_name << ":"
-                                 << endl << endl;
+        newAuto->_correspondence << endl
+                                 << "Table of Correspondence of " << _name << " to " << newAuto->_name << ":"
+                                 << endl
+                                 << endl;
         newAuto->_states = *Partition2States(P, _alphabet, newAuto->_correspondence);
-        if (newAuto->_states.size() == _states.size()) {
-            if (displayT) cout << "FA " << _name << "is already minimal" << endl;
+        if (newAuto->_states.size() == _states.size())
+        {
+            if (displayT)
+                cout << "FA " << _name << "is already minimal" << endl;
             _minimized = true;
         }
 
@@ -54,16 +59,15 @@ FA* FA::minimize(const bool displayT)
         newAuto->_minimized = true;
         newAuto->_synchronous = true;
 
-
         return newAuto;
-    } else
+    }
+    else
     {
-        if (displayT) cout << "FA must be Complete and Deterministic." << endl;
+        if (displayT)
+            cout << "FA must be Complete and Deterministic." << endl;
         return nullptr;
     }
-
 }
-
 
 static Partition partitioning(Partition P, vector<char> alphabet, int n)
 {
@@ -74,8 +78,7 @@ static Partition partitioning(Partition P, vector<char> alphabet, int n)
     int sizeP = P->size();
     vector<PatternGroup>::iterator EndPattGroups;
 
-
-    for (PatternGroup const &Pgroup  : *P)
+    for (PatternGroup const &Pgroup : *P)
     {
         nextP = new vector<PatternGroup>;
 
@@ -105,7 +108,7 @@ static Partition partitioning(Partition P, vector<char> alphabet, int n)
 
     //Concat AllParts
     nextP = new vector<PatternGroup>;
-    for (Partition Part: AllParts)
+    for (Partition Part : AllParts)
     {
         nextP->insert(nextP->end(), Part->begin(), Part->end());
     }
@@ -113,13 +116,11 @@ static Partition partitioning(Partition P, vector<char> alphabet, int n)
     //clear it up
     //(I dont really know when to use 'delete' so im kinda just yeeting it all lmaoooo)
     deletePartition(P);
-    for (Partition part:AllParts)
+    for (Partition part : AllParts)
     {
         deletePartition(part);
     }
     delete &AllParts;
-
-
 
     //If it is the same size, it means no additional partitioning is possible so it should return the latest partition
     //(since that latest partition and the previous one are the same, the patterns point to the correct indexes in the latest partition)
@@ -188,7 +189,7 @@ static vector<State *> *Partition2States(Partition P, vector<char> &alphabet, st
 static vector<int> *getPattern(Partition source, vector<Transition *> &exits, vector<char> alphabet)
 {
     vector<int> *newpatt = new vector<int>;
-    for (char c: alphabet)
+    for (char c : alphabet)
     {
         for (Transition *T : exits)
         {
@@ -210,7 +211,6 @@ static vector<int> *getPattern(Partition source, vector<Transition *> &exits, ve
     return newpatt;
 }
 
-
 static bool isSamePattern(vector<int> &p1, vector<int> &p2)
 {
     auto i = p1.begin(), j = p2.begin();
@@ -221,28 +221,36 @@ static bool isSamePattern(vector<int> &p1, vector<int> &p2)
     }
 
     return i == p1.end() && j == p2.end();
-
 }
 
 static void displayPartition(Partition P, int n, vector<char> alphabet)
 {
     //Displays partition number or final if it is final
     if (n == -1)
-        cout << endl << endl << "X X X X Final Partition X X X X X";
+        cout << endl
+             << endl
+             << "X X X X Final Partition X X X X X";
     else
-        cout << endl << endl << "X X X X X X " << "Partition " << n << " X X X X X X";
+        cout << endl
+             << endl
+             << "X X X X X X "
+             << "Partition " << n << " X X X X X X";
 
     //Display each pattern group
     for (int i = 0; i < P->size(); i++)
     {
-        cout << endl << endl << "   Pattern group " << i << endl << "      Pattern: ";
+        cout << endl
+             << endl
+             << "   Pattern group " << i << endl
+             << "      Pattern: ";
         if (n == 0)
         {
             //If it is the initial partition, it is only divided between final and non-final states
             if (!State::isAnyFinal((*P)[i].group))
                 cout << "Non-";
             cout << "Final States";
-        } else
+        }
+        else
         {
             //Display the pattern of a group
             if (n == -1)
@@ -251,11 +259,13 @@ static void displayPartition(Partition P, int n, vector<char> alphabet)
                 cout << "(transitions to groups from partition " << n - 1 << ")";
             for (int j = 0; j < alphabet.size(); j++)
             {
-                cout << endl << "         " << alphabet[j] << " : Group " << (*P)[i].pattern[j];
+                cout << endl
+                     << "         " << alphabet[j] << " : Group " << (*P)[i].pattern[j];
             }
         }
         //display the states of that belong to a group
-        cout << endl << "   States: ";
+        cout << endl
+             << "   States: ";
         for (int c = 0; c < (*P)[i].group.size(); c++)
         {
             if (c != 0)
@@ -264,7 +274,6 @@ static void displayPartition(Partition P, int n, vector<char> alphabet)
         }
     }
 }
-
 
 static void deletePartition(Partition P)
 {
