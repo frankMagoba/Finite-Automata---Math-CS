@@ -9,11 +9,11 @@
 
 using namespace std;
 
-
-class FA {
+class FA
+{
 private:
-    string _name = "Finite automata";           //Arbitrary name
-    vector<State*> _states;  //List of all the automaton's states
+    string _name = "Finite automata"; //Arbitrary name
+    vector<State *> _states;          //List of all the automaton's states
     vector<char> _alphabet;
 
     stringstream _correspondence;
@@ -35,7 +35,7 @@ public:
     /// Creating FA from existing states and alphabet
     /// \param states Vector of states
     /// \param alphabet Vector of alphabet
-    FA(vector<State*> &states, vector<char> &alphabet);
+    FA(vector<State *> &states, vector<char> &alphabet);
 
     ~FA();
 
@@ -71,24 +71,23 @@ public:
     /// \return bool
     bool isStandard(const bool display = false) const;
 
-    FA* minimize(const bool displayT = true);
+    FA *minimize(const bool displayT = true);
 
     ///Standardize an FA
     /// \return Adress of the standard FA.
-    FA* standardize();
+    FA *standardize();
 
     /// Determinize an FA
     /// \return Address of the determinized FA
-    FA* determinize();
-
+    FA *determinize();
 
     /// Enhances a Deterministic Automaton and makes it being complete
     /// \return Address of the completed FA
-    FA* completion();
+    FA *completion();
 
     /// Complementarize an FA
     /// \return Address of the determinized FA
-    FA* complementarize();
+    FA *complementarize();
 
     /// Run every checkX
     void runTest();
@@ -109,7 +108,7 @@ private:
     /// \param toCopyStates States of the FA to copy from
     /// \param newID ID of the state to create
     /// \return Address of the state (used only for recursion)
-    State* copyStatesProcess(std::vector<State*> &toCopyStates, const string &newID);
+    State *copyStatesProcess(std::vector<State *> &toCopyStates, const string &newID);
 
     /// Check if the automate is synchronous or not. Should be used after every change in the automate
     void checkSynchronous();
@@ -128,24 +127,20 @@ private:
 
     /// Sort transitions and states. It leads to a better display
     void sort();
-
 };
 
 /// Generate an ID from a list of states
 /// \param sameStates List of states
 /// \return ID generated
-extern string concatenateID(vector<State*> sameStates);
+extern string concatenateID(vector<State *> sameStates);
 
 /// Sub function of FA::isDeterministic(), checking the number of entry
 /// \param list List of states to check in
-static void oneEntry(const vector<State*> &list);
+static void oneEntry(const vector<State *> &list);
 
 /// Sub function of FA::isDeterministic(), checking if every transition is unique
 /// \param list List of states
 /// \param alphabet Alphabet of the FA
-static void uniqueTransition(const vector<State*> &list, vector<char> alphabet);
-
-
-
+static void uniqueTransition(const vector<State *> &list, vector<char> alphabet);
 
 #endif //FINITE_AUTOMATA_MATH_CS_STRUCTURE_H
